@@ -1,35 +1,48 @@
 #include<iostream>
 #include<fstream>
-#include<time.h>
 #include<string.h>
+
+#include"random.h"
+
 using namespace std;
 
-//Variabili Globali tutte const, cambiabili in caso di problemi allargando il programma
-//Se desiderassi cambiare il numel, mi basterebbe cambiarlo qua, e non dovrei cercare ogni
-//"3" presente nel programma
+/**
+ * Lunghezza massima dei valori who, what, why, e lunghezza massima della frase
+ * numero di elementi che compongono una frase
+ * Nome del file contenente i pezzi di frasi da attaccare
+ * Nome del file contenente le frasi preferite
+ */
 const int lungwho=30, lungwhat=40, lungwhy=40, lungall=110;
 const int numel=3;
 const char FilePezzi[] = "ElencoPezzi.txt";
 const char FilePreferiti[] = "FrasiPreferite.txt";
 
-struct pezzi //struttura usata per immagazzinare una terna di possibili valori
+/**
+ *  struttura usata per immagazzinare una terna di possibili valori
+ *  un array di questo elemento contiene i vari pezzi ottenuti
+ *  in input da un file
+ */
+struct pezzi
 {
 	char who[lungwho];
 	char what[lungwhat];
 	char why[lungwhy];
 };
 
+/**
+ * struttura usata per immagazzinare una frase completa
+ */
 struct sfrasi
 {
 	char frase[lungall];
 };
-int PaoloFox(int n,int t)//Genera valori casuali con n massimo, e cambia il valore se 									cambia t. t è inserito per evitare che i numel (standard 3) 								valori inseriti non siano tutti e tre uguali, dato che chiamati 							nello stesso secondo (per maggiori info vedere il funzionamento 							della funzione srand, e della funzione time
-{
-	srand(time(0)+t);
-	return (rand()%n);
-}
 
-pezzi* Riempimento(int &n) //Primo elemento del file txt: numero di elementi della struct
+
+
+/**
+ * Per prendere in Input FilePezzi, ed immagazzinarlo in un array di elementi di tipo "pezzi"
+ */
+pezzi* Riempimento(int &n)
 {
 	ifstream f(FilePezzi);
 	f>>n;
@@ -44,21 +57,25 @@ pezzi* Riempimento(int &n) //Primo elemento del file txt: numero di elementi del
 	return elenco;
 }
 
-void StampaBiscotto(pezzi* elenco,int indice[]) //Stampa Il Biscotto mettendo gli spazi 													prima delle Lettere Maiuscole
+/**
+ * Stampa un biscotto, mettendo gli spazi prima di ogni maiuscola per migliorare la leggibilita'
+ * bisogna passargli un array contenente gli indici da vedere nell'array di pezzi
+ */
+void StampaBiscotto(pezzi* elenco,int indice[])
 {
-	for(int i=0;i<strlen(elenco[indice[0]].who);i++)
+	for(unsigned int i=0;i<strlen(elenco[indice[0]].who);i++)
 	{
 		if(static_cast<int>(elenco[indice[0]].who[i])<=90&&static_cast<int>(elenco[indice[0]].who[i])>=65)
 			cout<<" ";
 		cout<<elenco[indice[0]].who[i];
 	}
-	for(int i=0;i<strlen(elenco[indice[1]].what);i++)
+	for(unsigned int i=0;i<strlen(elenco[indice[1]].what);i++)
 	{
 		if(static_cast<int>(elenco[indice[1]].what[i])<=90&&static_cast<int>(elenco[indice[1]].what[i])>=65)
 			cout<<" ";
 		cout<<elenco[indice[1]].what[i];
 	}
-	for(int i=0;i<strlen(elenco[indice[2]].why);i++)
+	for(unsigned int i=0;i<strlen(elenco[indice[2]].why);i++)
 	{
 		if(static_cast<int>(elenco[indice[2]].why[i])<=90&&static_cast<int>(elenco[indice[2]].why[i])>=65)
 			cout<<" ";
@@ -66,7 +83,12 @@ void StampaBiscotto(pezzi* elenco,int indice[]) //Stampa Il Biscotto mettendo gl
 	}
 	cout<<"\n\n";
 }
-void NuovoBiscotto(pezzi* elenco,int indice[],int n)//Crea un nuovo biscotto, chiamando 															numel (standard 3) volte PaoloFox
+
+/**
+ * Crea un nuovo biscotto, di fatto inizializzando i valori di un array "indice" con il risultato
+ * della funzione PaoloFox
+ */
+void NuovoBiscotto(pezzi* elenco,int indice[],int n)
 {
 	for(int i=0;i<numel;i++)
 	{
@@ -74,9 +96,13 @@ void NuovoBiscotto(pezzi* elenco,int indice[],int n)//Crea un nuovo biscotto, ch
 	}
 }
 
-void StampaFrasiRandom(sfrasi* copia,int n)//Stampa una frase random, e mette gli spazi 												prima dei caratteri maiuscoli
+/**
+ * Stampa la frase n tra quelle immagazzinate in un array di "sfrasi"
+ *
+ */
+void StampaFrase(sfrasi* copia,int n)
 {
-	for(int i=0;i<strlen(copia[n].frase);i++)
+	for(unsigned int i=0;i<strlen(copia[n].frase);i++)
 	{
 		if(static_cast<int>(copia[n].frase[i])<=90&&static_cast<int>(copia[n].frase[i])>=65)
 			cout<<" ";
@@ -84,7 +110,11 @@ void StampaFrasiRandom(sfrasi* copia,int n)//Stampa una frase random, e mette gl
 	}
 	cout<<"\n\n";
 }
-void CaricaPref(int &numpref,sfrasi* &copia)//Apre Il File DElle Frasi Preferite
+
+/**
+ * Apre e salva il file delle frasi preferite, modificando i parametri passati
+ */
+void CaricaPref(int &numpref,sfrasi* &copia)
 {
 	ifstream s(FilePreferiti);
 	s>>numpref;
@@ -94,7 +124,10 @@ void CaricaPref(int &numpref,sfrasi* &copia)//Apre Il File DElle Frasi Preferite
 	s.close();
 }
 
-void SalvaFrase(pezzi* elenco,int indice[]) //Salva L'Ultima Frase Nelle Preferite
+/**
+ * Salva l'ultima frase (pezzi ed indici passati come parametri) nei preferiti
+ */
+void SalvaFrase(pezzi* elenco,int indice[])
 {
 	int numpref;
 	sfrasi* copia;
@@ -112,15 +145,22 @@ void SalvaFrase(pezzi* elenco,int indice[]) //Salva L'Ultima Frase Nelle Preferi
 	f.close();
 }
 
-void Svuota() //Svuota il File delle frasi preferite e ci mette uno 0 (numero di frasi 						preferite
+/**
+ * Svuota il file delle frasi preferite
+ */
+void Svuota()
 {
 	ofstream f(FilePreferiti);
 	f<<"0\n";
 	f.close();
 }
 
-void PreferitaRandom()//Apre Il File Delle Frasi Preferite, e ne scrive una a 										caso,Riutilizzando la funzione StampaFrasiRandom
-{					  //Riutilizzando la funzione StampaFrasiRandom
+/**
+ * 	Apre Il File Delle Frasi Preferite, e ne scrive una a
+ * 	caso in standard output
+ */
+void PreferitaRandom()
+{
 	int numpref;
 	sfrasi* copia;
 	CaricaPref(numpref,copia);
@@ -129,9 +169,12 @@ void PreferitaRandom()//Apre Il File Delle Frasi Preferite, e ne scrive una a 		
 		cout<<"Non sono presenti frasi preferite\n\n";
 		return;
 	}
-	StampaFrasiRandom(copia,PaoloFox(numpref,0));
+	StampaFrase(copia,PaoloFox(numpref,0));
 }
 
+/**
+ * main, con classica scelta tra varie opzioni gestita da uno switch
+ */
 int main()
 {
 	int n;//Numero di elementi
@@ -168,6 +211,7 @@ int main()
 				PreferitaRandom();
 				break;
 			case 5:
+				cout<<"E' stato bello creare biscotti con te\n";
 				return 0;
 		}
 	}
