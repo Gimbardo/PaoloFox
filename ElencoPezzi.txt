@@ -1,4 +1,4 @@
-30
+34
 TuaMamma TiVuoleBene Perche'SeiStatoBravo
 LaTuaDolceMeta' CredeTuSiaImpazzito PerComeTiComporti
 LaPersonaPiu'VicinaATe TiDesideraFollemente EQuestoNonCambiera'Mai
@@ -28,4 +28,8 @@ UnAmicoInComune TiPortera'UnInsegnamento ,TiDara'Fastidio
 ChiMenoTeLoAspetti TiOffrira'Un'Avventura ,TuApprezzerai
 UnoSconosciuto SiFidera'DiTe ,ComunqueVadaTuNonMollare
 UnaPersonaImportante VorrebbeVedertiPiu'Spesso ,RispondiConAffetto
-UnaPersonaLontana TiVuoleDimostrareQualcosa .
+UnaPersonaLontana TiVuoleDimostrareQualcosa ,CoseCheCapitano
+UnaPersonaMisteriosa TiVorrebbeConoscereMeglio ,NonRimanerneStupito
+ChiTiManca SiFara'Vivo MaNonAndra'AFinireComePensi
+LaTuaNemesi TiVuoleMorto ,MaInFondoLoSapeviGia'
+IlTuoSalvatore Verra'InTuoSoccorso ,PreparatiAdEssereFelice
